@@ -10,7 +10,7 @@ class Timer {
     private _title: string;
     private color: string;
     private description: string;
-    private displayValue: string = this.getDisplayValue(this.value);
+    private displayValue: string = Timer.getDisplayValue(this.value);
     private fullCount: number = this.value;
     private intervalId: any;
 
@@ -34,21 +34,10 @@ class Timer {
                 this.$scope.$apply(() => {
                     var test = this.title;
                     this.value = this.fullCount + (Date.now() - this.startTimestamp);
-                    this.displayValue = this.getDisplayValue(this.value);
+                    this.displayValue = Timer.getDisplayValue(this.value);
                 })
             }, 1);
         }
-    }
-
-    private getDisplayValue(value: number): string {
-        let time = Math.round(value / 1000);
-        let seconds = time % 60; time = Math.floor(time / 60);
-        let minutes = time % 60; time = Math.floor(time / 60);
-        let hours = time % 24;
-
-        return (hours < 10 ? "0" + hours : hours) + ":" +
-            (minutes < 10  ? "0" + minutes : minutes) + ":" +
-            (seconds < 10  ? "0" + seconds : seconds);
     }
 
     private stop(): void {
@@ -71,6 +60,17 @@ class Timer {
     private openMenu($mdOpenMenu, ev) {
         $mdOpenMenu(ev);
     };
+
+    public static getDisplayValue(value: number): string {
+        let time = Math.round(value / 1000);
+        let seconds = time % 60; time = Math.floor(time / 60);
+        let minutes = time % 60; time = Math.floor(time / 60);
+        let hours = time % 24;
+
+        return (hours < 10 ? "0" + hours : hours) + ":" +
+            (minutes < 10  ? "0" + minutes : minutes) + ":" +
+            (seconds < 10  ? "0" + seconds : seconds);
+    }
 }
 
 angular.module("Application").component("timer", {

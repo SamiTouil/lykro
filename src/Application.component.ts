@@ -49,6 +49,20 @@ class View {
             () => { this.$mdToast.show(this.$mdToast.simple().textContent("No Post-It was removed")); }
         );
     }
+
+    private exportToCsv() {
+        let csv = "Client;Description;Time\r\n";
+        this.timers.forEach(timer => {
+            csv += timer.title + ";" + timer.description + ";" + Timer.getDisplayValue(timer.value) + "\r\n";
+        });
+        let blob = new Blob([csv], {type: 'text/csv'});
+        let elem: any = window.document.createElement('a');
+        elem.href = window.URL.createObjectURL(blob);
+        elem.download = "timers.csv";
+        document.body.appendChild(elem)
+        elem.click();
+        document.body.removeChild(elem);
+    }
 }
 angular.module('Application', ['ngMaterial', 'ngSanitize'])
     .config(function ($mdThemingProvider) {
@@ -64,6 +78,7 @@ angular.module('Application', ['ngMaterial', 'ngSanitize'])
         <div style="font-family: 'Verdana';font-weight: bolder">&nbsp;LYKRO&nbsp;</div>
         <md-button class="md-raised" ng-click="$ctrl.addPostIt()">Add post-it</md-button>
         <md-button class="md-raised" ng-click="$ctrl.deleteAllPostIt()">Clear all Post-It</md-button>
+        <md-button class="md-raised" ng-click="$ctrl.exportToCsv()">Export to Excel</md-button>
     </md-toolbar>
     <div layout="row" layout-wrap>
         <timer ng-repeat="timer in $ctrl.timers"
