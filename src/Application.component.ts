@@ -53,12 +53,14 @@ class View {
 angular.module('Application', ['ngMaterial', 'ngSanitize'])
     .config(function ($mdThemingProvider) {
         $mdThemingProvider.theme('default')
-            .primaryPalette('blue-grey')
+            .primaryPalette('blue')
             .accentPalette('red');
     })
     .component("view", {
     template: `<div layout="column">
-    <md-toolbar layout="row" layout-align="start center">
+    <md-toolbar class="md-whiteframe-4dp" layout="row" layout-align="start center">
+        <div>&nbsp;</div>
+        <i style="font-size: 30px" class="material-icons">av_timer</i>
         <div style="font-family: 'Verdana';font-weight: bolder">&nbsp;LYKRO&nbsp;</div>
         <md-button class="md-raised" ng-click="$ctrl.addPostIt()">Add post-it</md-button>
         <md-button class="md-raised" ng-click="$ctrl.deleteAllPostIt()">Clear all Post-It</md-button>
