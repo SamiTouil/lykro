@@ -7,7 +7,6 @@ class View {
         // save loop
         setInterval(() => {
             if(typeof(Storage) !== "undefined") {
-                let toto = JSON.stringify(this.timers);
                 localStorage.setItem("lykro.timers", JSON.stringify(this.timers));
             }
         }, 1000)
@@ -53,8 +52,9 @@ class View {
     private exportToCsv() {
         let csv = "Client;Description;Time\r\n";
         this.timers.forEach(timer => {
-            csv += timer.title + ";" + timer.description + ";" + Timer.getDisplayValue(timer.value) + "\r\n";
+            csv += "\"" + timer.title + "\";\"" + timer.description + "\";" + Timer.getDisplayValue(timer.value) + "\r\n";
         });
+
         let blob = new Blob([csv], {type: 'text/csv'});
         let elem: any = window.document.createElement('a');
         elem.href = window.URL.createObjectURL(blob);
@@ -67,7 +67,7 @@ class View {
 angular.module('Application', ['ngMaterial', 'ngSanitize'])
     .config(function ($mdThemingProvider) {
         $mdThemingProvider.theme('default')
-            .primaryPalette('blue')
+            .primaryPalette('blue-grey')
             .accentPalette('red');
     })
     .component("view", {
