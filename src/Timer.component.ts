@@ -203,7 +203,7 @@ angular.module("Application").component("timer", {
     <div class="header">
 
         <md-input-container md-no-float class="md-block titleContainer">
-            <textarea class="title" ng-model="$ctrl.title" placeholder="Client name" style="-webkit-text-fill-color: black;" rows="1"></textarea>
+            <input class="title" ng-model="$ctrl.title" placeholder="Client name" style="-webkit-text-fill-color: black;" rows="1">
         </md-input-container>
 
         <md-menu>
