@@ -298,7 +298,7 @@ angular.module("Application").component("timer", {
     <div class="footer">
         <i class="material-icons deleteIcon" ng-click="$ctrl.onDelete()" style="margin-top: 23px;">remove_circle_outline</i>
         <md-input-container md-no-float class="md-block timeContainer">
-            <input class="time" ng-model="$ctrl.displayValue" ng-model-options="{updateOn : 'change blur'}" placeholder="Time" style="-webkit-text-fill-color: black;border-color: transparent;">
+            <input class="time" ng-disabled="$ctrl.isStarted()" ng-model="$ctrl.displayValue" ng-model-options="{updateOn : 'change blur'}" placeholder="Time" style="-webkit-text-fill-color: black;border-color: transparent;width:100px">
         </md-input-container>
         <i class="material-icons actionIcon" ng-click="$ctrl.isStarted() ? $ctrl.stop() : $ctrl.start()">
             {{$ctrl.actionIcon()}}
