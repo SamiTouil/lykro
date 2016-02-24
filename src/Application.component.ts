@@ -20,7 +20,7 @@ class View {
             title: "",
             description: "",
             value: 0,
-            color: "FFD700"});
+            color: "E2E0DD"});
     }
 
     private deletePostIt(index) {

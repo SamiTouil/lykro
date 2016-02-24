@@ -199,7 +199,10 @@ angular.module("Application").component("timer", {
 
     .description {
         font-family: Calibri;
-        font-size: 13px;
+        font-size: 16px;
+        line-height: 16px !important;
+        height: 116px !important;
+        overflow: initial;
     }
 
     .timeContainer {
@@ -291,7 +294,7 @@ angular.module("Application").component("timer", {
 
     <div class="body">
         <md-input-container md-no-float class="md-block descriptionContainer">
-            <textarea class="description" ng-model="$ctrl.description" placeholder="Task Description" style="-webkit-text-fill-color: black;" rows="4"></textarea>
+            <textarea class="description" md-no-autogrow ng-model="$ctrl.description" placeholder="Task Description" style="-webkit-text-fill-color: black;" rows="4"></textarea>
         </md-input-container>
     </div>
 
