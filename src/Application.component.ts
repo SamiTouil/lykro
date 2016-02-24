@@ -1,18 +1,18 @@
 declare var angular;
 class View {
     constructor(public $mdDialog, public $mdToast) {
-        if(typeof(Storage) !== "undefined") {
+        if (typeof(Storage) !== "undefined") {
             this.timers = JSON.parse(localStorage.getItem("lykro.timers")) || [];
         }
         // save loop
         setInterval(() => {
-            if(typeof(Storage) !== "undefined") {
+            if (typeof(Storage) !== "undefined") {
                 localStorage.setItem("lykro.timers", JSON.stringify(this.timers));
             }
         }, 1000)
     }
 
-    private timers: any[];
+    private timers:any[];
 
     private addPostIt() {
         this.timers.push({
@@ -20,7 +20,8 @@ class View {
             title: "",
             description: "",
             value: 0,
-            color: "E2E0DD"});
+            color: "E2E0DD"
+        });
     }
 
     private deletePostIt(index) {
@@ -31,8 +32,13 @@ class View {
             .ok('Yes')
             .cancel('No');
         this.$mdDialog.show(confirm).then(
-            () => { this.timers.splice(index, 1); this.$mdToast.show(this.$mdToast.simple().textContent("Post-It successfully removed")); },
-            () => { this.$mdToast.show(this.$mdToast.simple().textContent("Post-It was not removed")); }
+            () => {
+                this.timers.splice(index, 1);
+                this.$mdToast.show(this.$mdToast.simple().textContent("Post-It successfully removed"));
+            },
+            () => {
+                this.$mdToast.show(this.$mdToast.simple().textContent("Post-It was not removed"));
+            }
         );
     }
 
@@ -44,8 +50,13 @@ class View {
             .ok('Yes')
             .cancel('No');
         this.$mdDialog.show(confirm).then(
-            () => { this.timers = []; this.$mdToast.show(this.$mdToast.simple().textContent("All Post-It successfully removed")); },
-            () => { this.$mdToast.show(this.$mdToast.simple().textContent("No Post-It was removed")); }
+            () => {
+                this.timers = [];
+                this.$mdToast.show(this.$mdToast.simple().textContent("All Post-It successfully removed"));
+            },
+            () => {
+                this.$mdToast.show(this.$mdToast.simple().textContent("No Post-It was removed"));
+            }
         );
     }
 
@@ -56,7 +67,7 @@ class View {
         });
 
         let blob = new Blob([csv], {type: 'text/csv'});
-        let elem: any = window.document.createElement('a');
+        let elem:any = window.document.createElement('a');
         elem.href = window.URL.createObjectURL(blob);
         elem.download = "timers.csv";
         document.body.appendChild(elem)
@@ -71,20 +82,49 @@ angular.module('Application', ['ngMaterial', 'ngSanitize'])
             .accentPalette('red');
     })
     .component("view", {
-    template: `<div layout="column">
+        template: `<style> .fabButtonIcon {
+    font-size: 35px;
+    margin-top: 10px
+}
+
+.fabButtonIcon {
+    font-size: 24px;
+    margin-top: 8px
+}
+</style>
+<div layout="column">
     <md-toolbar class="md-whiteframe-4dp" layout="row" layout-align="start center">
         <div>&nbsp;</div>
         <i style="font-size: 30px" class="material-icons">av_timer</i>
-
         <div>
             <span style="font-family: 'Verdana';font-size: 25px;font-weight: bolder">&nbsp;LYKRO</span>
-            <span style="font-family: 'GoudyBookletter1911';font-size: 20px;font-style: italic">for Lawyers&nbsp;</span>
+            <span style="font-family: 'GoudyBookletter1911';font-size: 20px;font-style: italic">for Lawyers&nbsp;&nbsp;&nbsp;</span>
         </div>
 
-        <md-button class="md-raised" ng-click="$ctrl.addPostIt()">Add post-it</md-button>
-        <md-button class="md-raised" ng-click="$ctrl.deleteAllPostIt()">Clear all Post-It</md-button>
-        <md-button class="md-raised" ng-click="$ctrl.exportToCsv()">Export to Excel</md-button>
+        <md-button class="md-fab md-mini md-primary md-hue-2" ng-click="$ctrl.deleteAllPostIt()"
+                   aria-label="Clear all Post-It">
+            <i class="material-icons fabButtonIcon">delete_forever</i>
+            <md-tooltip>
+                Clear all Post-It
+            </md-tooltip>
+        </md-button>
+
+        <md-button class="md-fab md-mini md-primary md-hue-2" ng-click="$ctrl.exportToCsv()"
+                   aria-label="Export to Excel">
+            <i class="material-icons fabButtonIcon">view_list</i>
+            <md-tooltip>
+                Export to Excel
+            </md-tooltip>
+        </md-button>
+        <md-button class="md-fab md-mini md-primary md-hue-2" ng-click="$ctrl.addPostIt()" aria-label="Add post-it">
+            <i class="material-icons fabButtonIcon">add</i>
+            <md-tooltip>
+                Add post-it
+            </md-tooltip>
+        </md-button>
     </md-toolbar>
+    <div layout="row">
+    </div>
     <div layout="row" layout-wrap>
         <timer ng-repeat="timer in $ctrl.timers"
                id="timer.id"
@@ -95,5 +135,5 @@ angular.module('Application', ['ngMaterial', 'ngSanitize'])
                on-delete="$ctrl.deletePostIt($index)"></timer>
     </div>
 </div>`,
-    controller: View
-});
+        controller: View
+    });
