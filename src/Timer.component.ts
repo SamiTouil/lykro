@@ -124,7 +124,7 @@ angular.module("Application").component("timer", {
 
     .body {
         display: inline-block;
-        height: 140px;
+        height: 130px;
         width: 250px;
         padding: 0px;
         margin: 0px;
@@ -132,37 +132,36 @@ angular.module("Application").component("timer", {
     }
 
     .footer {
-        display: inline-block;
         height: 24px;
         width: 250px;
-        padding: 2px 0px 0px 10px;
+        padding: 0px 0px 0px 10px;
         margin: 0px;
         -webkit-user-select: none;
+    }
+
+    .titleContainer {
+        padding: 0px 0px 0px 10px;
+        margin: 0px 0px 0px 0px;
+        width: 190px;
+        height: 24px;
+        float: left;
     }
 
     .title {
         font-size: 17px;
         font-family: Calibri;
         font-weight: bolder;
-        padding-left: 10px;
-        padding-top: 5px;
-        width: 190px;
-        height: 24px;
-        float: left;
-        background: transparent;
-        border: transparent;
-        resize: none;
+    }
+
+    .descriptionContainer {
+        width: 230px;
+        padding: 0px 0px 0px 10px;
+        margin: 10px 0px 0px 0px;
     }
 
     .description {
         font-family: Calibri;
-        height: 140px;
-        width: 240px;
-        padding: 0px 0px 0px 10px;
-        margin: 0px;
-        background: transparent;
-        border: transparent;
-        resize: none;
+        font-size: 13px;
     }
 
     .time {
@@ -202,7 +201,10 @@ angular.module("Application").component("timer", {
 <div class="timer{{$ctrl.id}}">
 
     <div class="header">
-        <textarea class="title" ng-model="$ctrl.title"></textarea>
+
+        <md-input-container md-no-float class="md-block titleContainer">
+            <textarea class="title" ng-model="$ctrl.title" placeholder="Client name" style="-webkit-text-fill-color: black;" rows="1"></textarea>
+        </md-input-container>
 
         <md-menu>
             <i class="material-icons paletteIcon" ng-click="$ctrl.openMenu($mdOpenMenu, $event)">palette</i>
@@ -242,16 +244,14 @@ angular.module("Application").component("timer", {
                     </div>
                 </md-menu-item>
             </md-menu-content>
-
-
-
-
         </md-menu>
 
     </div>
 
     <div class="body">
-        <textarea class="description" ng-model="$ctrl.description"></textarea>
+        <md-input-container md-no-float class="md-block descriptionContainer">
+            <textarea class="description" ng-model="$ctrl.description" placeholder="Task Description" style="-webkit-text-fill-color: black;" rows="4"></textarea>
+        </md-input-container>
     </div>
 
     <div class="footer">

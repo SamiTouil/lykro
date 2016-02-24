@@ -17,8 +17,8 @@ class View {
     private addPostIt() {
         this.timers.push({
             id: Date.now(),
-            title: "Enter client name",
-            description: "Enter your task description here",
+            title: "",
+            description: "",
             value: 0,
             color: "FFD700"});
     }
@@ -75,7 +75,12 @@ angular.module('Application', ['ngMaterial', 'ngSanitize'])
     <md-toolbar class="md-whiteframe-4dp" layout="row" layout-align="start center">
         <div>&nbsp;</div>
         <i style="font-size: 30px" class="material-icons">av_timer</i>
-        <div style="font-family: 'Verdana';font-weight: bolder">&nbsp;LYKRO&nbsp;</div>
+
+        <div>
+            <span style="font-family: 'Verdana';font-size: 25px;font-weight: bolder">&nbsp;LYKRO</span>
+            <span style="font-family: 'GoudyBookletter1911';font-size: 20px;font-style: italic">for Lawyers&nbsp;</span>
+        </div>
+
         <md-button class="md-raised" ng-click="$ctrl.addPostIt()">Add post-it</md-button>
         <md-button class="md-raised" ng-click="$ctrl.deleteAllPostIt()">Clear all Post-It</md-button>
         <md-button class="md-raised" ng-click="$ctrl.exportToCsv()">Export to Excel</md-button>
