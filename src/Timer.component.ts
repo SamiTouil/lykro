@@ -10,7 +10,7 @@ class Timer {
     private _title: string;
     private color: string;
     private description: string;
-    private displayValue: string = Timer.getDisplayValue(this.value);
+    private _displayValue: string = Timer.getDisplayValue(this.value);
     private fullCount: number = this.value;
     private intervalId: any;
 
@@ -20,6 +20,25 @@ class Timer {
     private set title(value: string) {
         if (value !== this._title) {
             this._title = value.toUpperCase();
+        }
+    }
+
+    private get displayValue() {
+        return this._displayValue;
+    }
+    private set displayValue(value: string) {
+        if (value !== this._displayValue) {
+            // also update value
+            if (!this.isStarted()) {
+                let newValue = Timer.getValue(value);
+                if (!isNaN(newValue) && newValue !== this.value) {
+                    this._displayValue = value;
+                    this.value = newValue;
+                    this.fullCount = newValue;
+                }
+            } else {
+                this._displayValue = value;
+            }
         }
     }
 
@@ -70,6 +89,25 @@ class Timer {
         return (hours < 10 ? "0" + hours : hours) + ":" +
             (minutes < 10  ? "0" + minutes : minutes) + ":" +
             (seconds < 10  ? "0" + seconds : seconds);
+    }
+
+    public static getValue(displayValue: string): number {
+        let result = NaN;
+        let tokens = displayValue.split(":");
+        if (tokens.length === 3 && Timer.isNumber(tokens[0]) && Timer.isNumber(tokens[1]) && Timer.isNumber(tokens[2])) {
+            result = (parseInt(tokens[0]) * 3600000) + (parseInt(tokens[1]) * 60000) + (parseInt(tokens[2]) * 1000);
+        }
+        return result;
+    }
+
+    public static isNumber(numberString: string): boolean {
+        let result = true;
+        for(let i = 0, max = numberString.length; i < max; i ++) {
+            if (isNaN(parseInt(numberString[i]))) {
+                result = false;
+            }
+        }
+        return result;
     }
 }
 
@@ -124,7 +162,7 @@ angular.module("Application").component("timer", {
 
     .body {
         display: inline-block;
-        height: 130px;
+        height: 110px;
         width: 250px;
         padding: 0px;
         margin: 0px;
@@ -164,15 +202,18 @@ angular.module("Application").component("timer", {
         font-size: 13px;
     }
 
-    .time {
+    .timeContainer {
         float: left;
         pointer: default;
-        font-family: "Calibri";
-        font-size: 23px;
         width: 160px;
         padding-left: 10px;
-        font-weight: bolder;
         -webkit-user-select: none;
+    }
+
+    .time {
+        font-family: "Calibri";
+        font-size: 23px;
+        font-weight: bolder;
     }
 
     .actionIcon {
@@ -203,7 +244,7 @@ angular.module("Application").component("timer", {
     <div class="header">
 
         <md-input-container md-no-float class="md-block titleContainer">
-            <input class="title" ng-model="$ctrl.title" placeholder="Client name" style="-webkit-text-fill-color: black;" rows="1">
+            <input class="title" ng-model="$ctrl.title" placeholder="Client name" style="-webkit-text-fill-color: black;">
         </md-input-container>
 
         <md-menu>
@@ -255,8 +296,10 @@ angular.module("Application").component("timer", {
     </div>
 
     <div class="footer">
-        <i class="material-icons deleteIcon" ng-click="$ctrl.onDelete()">remove_circle_outline</i>
-        <div class="time">{{$ctrl.displayValue}}</div>
+        <i class="material-icons deleteIcon" ng-click="$ctrl.onDelete()" style="margin-top: 23px;">remove_circle_outline</i>
+        <md-input-container md-no-float class="md-block timeContainer">
+            <input class="time" ng-model="$ctrl.displayValue" ng-model-options="{updateOn : 'change blur'}" placeholder="Time" style="-webkit-text-fill-color: black;border-color: transparent;">
+        </md-input-container>
         <i class="material-icons actionIcon" ng-click="$ctrl.isStarted() ? $ctrl.stop() : $ctrl.start()">
             {{$ctrl.actionIcon()}}
         </i>
