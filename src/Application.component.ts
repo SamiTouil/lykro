@@ -74,6 +74,10 @@ class View {
         elem.click();
         document.body.removeChild(elem);
     }
+
+    private getTotalTime() {
+        return Timer.getDisplayValue(this.timers.reduce((result, t) => {return result + t.value}, 0));
+    }
 }
 angular.module('Application', ['ngMaterial', 'ngSanitize'])
     .config(function ($mdThemingProvider) {
@@ -122,7 +126,12 @@ angular.module('Application', ['ngMaterial', 'ngSanitize'])
                 Add post-it
             </md-tooltip>
         </md-button>
+
+        <div flex></div>
+
+        <span style="font-family: 'Verdana';font-size: 25px;font-weight: bolder">Total time : {{$ctrl.getTotalTime()}}&nbsp;</span>
     </md-toolbar>
+
     <div layout="row">
     </div>
     <div layout="row" layout-wrap>
