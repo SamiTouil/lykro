@@ -84,7 +84,7 @@ class Timer {
         let time = Math.round(value / 1000);
         let seconds = time % 60; time = Math.floor(time / 60);
         let minutes = time % 60; time = Math.floor(time / 60);
-        let hours = time % 24;
+        let hours = time;
 
         return (hours < 10 ? "0" + hours : hours) + ":" +
             (minutes < 10  ? "0" + minutes : minutes) + ":" +
