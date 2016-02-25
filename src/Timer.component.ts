@@ -193,6 +193,7 @@ angular.module("Application").component("timer", {
 
     .descriptionContainer {
         width: 230px;
+        height: 0px;
         padding: 0px 0px 0px 10px;
         margin: 10px 0px 0px 0px;
     }
