@@ -66,7 +66,12 @@ class View {
             csv += "\"" + timer.title + "\";\"" + timer.description + "\";" + Timer.getDisplayValue(timer.value) + "\r\n";
         });
 
-        let blob = new Blob([csv], {type: 'text/csv'});
+        var uint8 = new Uint8Array(csv.length);
+        for (var i = 0; i <  uint8.length; i++){
+            uint8[i] = csv.charCodeAt(i);
+        }
+
+        let blob = new Blob([uint8], {type: 'text/csv'});
         let elem:any = window.document.createElement('a');
         elem.href = window.URL.createObjectURL(blob);
         elem.download = "timers.csv";
