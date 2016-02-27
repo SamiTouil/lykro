@@ -1,7 +1,7 @@
 declare var angular;
 
 class Timer {
-    constructor(private $scope, private $mdDialog) {
+    constructor(private $scope, private $mdDialog, private $mdToast) {
         this.color = this.color || "E5CF33";
     }
 
@@ -109,6 +109,27 @@ class Timer {
         }
         return result;
     }
+
+    private onReset(): void {
+        // Appending dialog to document.body to cover sidenav in docs app
+        var confirm = this.$mdDialog.confirm()
+            .title('Reset timer')
+            .textContent('Are you sure you want to reset this timer ?')
+            .ok('Yes')
+            .cancel('No');
+        this.$mdDialog.show(confirm).then(
+            () => {
+                if (this.isStarted()) {
+                    this.stop();
+                }
+                this.displayValue = "00:00:00";
+                this.$mdToast.show(this.$mdToast.simple().textContent("Timer successfully reset"));
+            },
+            () => {
+                this.$mdToast.show(this.$mdToast.simple().textContent("Timer was not reset"));
+            }
+        );
+    }
 }
 
 angular.module("Application").component("timer", {
@@ -209,7 +230,7 @@ angular.module("Application").component("timer", {
     .timeContainer {
         float: left;
         pointer: default;
-        width: 160px;
+        width: 135px;
         padding-left: 10px;
         -webkit-user-select: none;
     }
@@ -231,10 +252,18 @@ angular.module("Application").component("timer", {
         -webkit-user-select: none;
     }
 
+    .resetIcon {
+        float: left;
+        margin-top: 2px;
+        cursor:pointer;
+        margin-top: 23px;
+    }
+
     .deleteIcon {
         float: left;
         margin-top: 2px;
         cursor:pointer;
+        margin-top: 23px;
     }
 
     .paletteIcon {
@@ -300,7 +329,8 @@ angular.module("Application").component("timer", {
     </div>
 
     <div class="footer">
-        <i class="material-icons deleteIcon" ng-click="$ctrl.onDelete()" style="margin-top: 23px;">remove_circle_outline</i>
+        <i class="material-icons deleteIcon" ng-click="$ctrl.onDelete()">remove_circle_outline<md-tooltip>Delete timer</md-tooltip></i>
+        <i class="material-icons resetIcon" ng-click="$ctrl.onReset()">refresh<md-tooltip>Reset timer</md-tooltip></i>
         <md-input-container md-no-float class="md-block timeContainer">
             <input class="time" ng-disabled="$ctrl.isStarted()" ng-model="$ctrl.displayValue" ng-model-options="{updateOn : 'change blur'}" placeholder="Time" style="-webkit-text-fill-color: black;border-color: transparent;width:100px">
         </md-input-container>

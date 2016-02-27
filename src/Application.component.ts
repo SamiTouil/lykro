@@ -137,8 +137,6 @@ angular.module('Application', ['ngMaterial', 'ngSanitize'])
         <span style="font-family: 'Verdana';font-size: 25px;font-weight: bolder">Total time : {{$ctrl.getTotalTime()}}&nbsp;</span>
     </md-toolbar>
 
-    <div layout="row">
-    </div>
     <div layout="row" layout-wrap>
         <timer ng-repeat="timer in $ctrl.timers"
                id="timer.id"
