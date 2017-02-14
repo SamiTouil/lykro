@@ -107,7 +107,7 @@ angular.module('Application', ['ngMaterial', 'ngSanitize'])
         <i style="font-size: 30px" class="material-icons">av_timer</i>
         <div>
             <span style="font-family: 'Verdana';font-size: 25px;font-weight: bolder">&nbsp;LYKRO</span>
-            <span style="font-family: 'GoudyBookletter1911';font-size: 20px;font-style: italic">for Lawyers&nbsp;&nbsp;&nbsp;</span>
+            <span style="font-family: 'GoudyBookletter1911';font-size: 20px;font-style: italic">for Lydia&nbsp;&nbsp;&nbsp;</span>
         </div>
 
         <md-button class="md-fab md-mini md-primary md-hue-2" ng-click="$ctrl.deleteAllPostIt()"
