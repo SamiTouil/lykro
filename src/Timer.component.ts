@@ -3,6 +3,7 @@ declare var angular;
 class Timer {
     constructor(private $scope, private $mdDialog, private $mdToast) {
         this.color = this.color || "E5CF33";
+        Timer.TimerComponents.push(this);
     }
 
     private id: number;
@@ -13,6 +14,8 @@ class Timer {
     private _displayValue: string = Timer.getDisplayValue(this.value);
     private fullCount: number = this.value;
     private intervalId: any;
+
+    private static TimerComponents = [];
 
     private get title() {
         return this._title && this._title.toUpperCase();
@@ -59,7 +62,7 @@ class Timer {
         }
     }
 
-    private stop(): void {
+    public stop(): void {
         if (this.isStarted()) {
             clearInterval(this.intervalId);
             this.intervalId = undefined;
@@ -68,7 +71,17 @@ class Timer {
         }
     }
 
-    private isStarted(): boolean {
+    public static resetAllTimers(): void {
+        // reset all timers
+        Timer.TimerComponents.forEach(timer => {
+            if (timer.isStarted()) {
+                timer.stop();
+            }
+            timer.displayValue = "00:00:00";
+        });
+    }
+
+    public isStarted(): boolean {
         return this.startTimestamp !== undefined;
     }
 

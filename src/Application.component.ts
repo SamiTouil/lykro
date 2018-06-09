@@ -60,6 +60,24 @@ class View {
         );
     }
 
+    private resetAllPostIt() {
+        // Appending dialog to document.body to cover sidenav in docs app
+        var confirm = this.$mdDialog.confirm()
+            .title('Reset all Post-It')
+            .textContent('Are you sure you want to reset ALL Post-It ?')
+            .ok('Yes')
+            .cancel('No');
+        this.$mdDialog.show(confirm).then(
+            () => {
+                Timer.resetAllTimers();
+                this.$mdToast.show(this.$mdToast.simple().textContent("All Post-It successfully reset"));
+            },
+            () => {
+                this.$mdToast.show(this.$mdToast.simple().textContent("No Post-It was reset"));
+            }
+        );
+    }
+
     private exportToCsv() {
         let csv = "Client;Description;Time\r\n";
         this.timers.forEach(timer => {
@@ -84,6 +102,7 @@ class View {
         return Timer.getDisplayValue(this.timers.reduce((result, t) => {return result + t.value}, 0));
     }
 }
+
 angular.module('Application', ['ngMaterial', 'ngSanitize'])
     .config(function ($mdThemingProvider) {
         $mdThemingProvider.theme('default')
@@ -125,10 +144,18 @@ angular.module('Application', ['ngMaterial', 'ngSanitize'])
                 Export to Excel
             </md-tooltip>
         </md-button>
+
         <md-button class="md-fab md-mini md-primary md-hue-2" ng-click="$ctrl.addPostIt()" aria-label="Add post-it">
             <i class="material-icons fabButtonIcon">add</i>
             <md-tooltip>
                 Add post-it
+            </md-tooltip>
+        </md-button>
+
+        <md-button class="md-fab md-mini md-primary md-hue-2" ng-click="$ctrl.resetAllPostIt()" aria-label="Reset all post-it">
+            <i class="material-icons fabButtonIcon">refresh</i>
+            <md-tooltip>
+                Reset all post-it
             </md-tooltip>
         </md-button>
 
